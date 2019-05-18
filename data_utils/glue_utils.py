@@ -109,7 +109,6 @@ def load_qnnli(file, label_dict, header=True, is_train=True):
     with open(file, encoding="utf8") as f:
         lines = f.readlines()
         if header: lines = lines[1:]
-
         assert len(lines) % 2 == 0
         for idx in range(0, len(lines), 2):
             block1 = lines[idx].strip().split('\t')
