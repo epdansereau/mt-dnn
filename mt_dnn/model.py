@@ -110,7 +110,7 @@ class MTDNNModel(object):
         if batch_meta['pairwise']:
             labels = labels.contiguous().view(-1, batch_meta['pairwise_size'])[:, 0]
         if self.config['cuda']:
-            y = Variable(labels.cuda(async=True), requires_grad=False)
+            y = Variable(labels.cuda(non_blocking=True), requires_grad=False)
         else:
             y = Variable(labels, requires_grad=False)
         task_id = batch_meta['task_id']
@@ -126,7 +126,7 @@ class MTDNNModel(object):
 
         if self.config.get('weighted_on', False):
             if self.config['cuda']:
-                weight = Variable(batch_data[batch_meta['factor']].cuda(async=True))
+                weight = Variable(batch_data[batch_meta['factor']].cuda(non_blocking=True))
             else:
                 weight = Variable(batch_data[batch_meta['factor']])
             if task_type > 0:

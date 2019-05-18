@@ -31,7 +31,7 @@ def set_environment(seed, set_cuda=False):
 
 def patch_var(v, cuda=True):
     if cuda:
-        v = Variable(v.cuda(async=True))
+        v = Variable(v.cuda(non_blocking=True))
     else:
         v = Variable(v)
     return v
