@@ -108,16 +108,26 @@ def load_qnnli(file, label_dict, header=True, is_train=True):
     cnt = 0
     with open(file, encoding="utf8") as f:
         lines = f.readlines()
-        if header: lines = lines[1:]
-        assert len(lines) % 2 == 0
+        if header:
+            lines = lines[1:-1]
+            #lines = lines[1:]
+        # HOT FIX
+        # Temporary fix because the script was build for an old dataset
+        # See https://github.com/namisan/mt-dnn/pull/33/commits/0268146e9f3771a91fab371aca6bb048ab6efbbd
+        
+        # assert len(lines) % 2 == 0
         for idx in range(0, len(lines), 2):
             block1 = lines[idx].strip().split('\t')
             block2 = lines[idx + 1].strip().split('\t')
             # train shuffle
             assert len(block1) > 2 and len(block2) > 2
-            if is_train and block1[1] != block2[1]:
+            # HOT FIX
+            #if is_train and block1[1] != block2[1]:
+            if block1[1] != block2[1]:
                 mis_matched_cnt += 1
                 continue
+            if idx == 0:
+                print("F")
             assert block1[1] == block2[1]
             lab1, lab2 = 0, 0
             if is_train:
