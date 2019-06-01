@@ -28,7 +28,12 @@ GLOBAL_MAP = {
  'diag': SNLI_LabelMapper,
 }
 
+# I'm not sure what each of does parameters do. I tried to guess the right values for toxic
+
 # number of class
+# This seems to be the number of classes in a classification task. Therefore, for regression,
+# we put the value as 1.
+# I'm not sure how this works for question anwsering tasks
 DATA_META = {
  'mnli': 3,
  'snli': 3,
@@ -43,8 +48,10 @@ DATA_META = {
  'sst': 2,
  'stsb': 1,
  'cola': 2,
+ 'toxic': 1
 }
 
+# It seems like this has to be 1 when type_id is an array of zeros
 DATA_TYPE = {
  'mnli': 0,
  'snli': 0,
@@ -59,8 +66,10 @@ DATA_TYPE = {
  'sst': 1,
  'stsb': 0,
  'cola': 1,
+ 'toxic':1
 }
 
+# I'm assuming this is only needed for qqp
 DATA_SWAP = {
  'mnli': 0,
  'snli': 0,
@@ -78,6 +87,7 @@ DATA_SWAP = {
 }
 
 # classification/regression
+# This one seems pretty straight forward. 1 for regression.
 TASK_TYPE = {
  'mnli': 0,
  'snli': 0,
@@ -92,8 +102,10 @@ TASK_TYPE = {
  'sst': 0,
  'stsb':1,
  'cola': 0,
+ 'toxic':1
 }
 
+# Since I want to do a regression, let's see if I can use the same as stsb
 METRIC_META = {
  'mnli': [0],
  'snli': [0],
@@ -108,6 +120,7 @@ METRIC_META = {
  'sst': [0],
  'stsb': [3, 4],
  'cola': [0, 2],
+ 'toxic': [3, 4]
 }
 
 METRIC_NAME = {
@@ -126,6 +139,8 @@ METRIC_FUNC = {
  4: compute_spearman,
 }
 
+# note found on a deleted issue:
+# SAN_META is to define whether the task can use the SAN net: 0 indicating we cannot use SAN in this task, e.g., regression. There is a small cleaning bug, and we'll fix it soon and add some comments in the code.
 SAN_META = {
     'mnli': 1,
     'snli': 1,
@@ -140,6 +155,7 @@ SAN_META = {
     'sst': 0,
     'stsb': 0,
     'cola': 0,
+    'toxic':0
 }
 
 def generate_decoder_opt(task, max_opt):
