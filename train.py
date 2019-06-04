@@ -255,6 +255,9 @@ def main():
         config['hidden_dropout_prob'] = args.bert_dropout_p
         opt.update(config)
     else:
+        #This shoudn't be allowed, waste of time
+        print("NO MODEL")
+        assert False
         logger.error('#' * 20)
         logger.error('Could not find the init model!\n The parameters will be initialized randomly!')
         logger.error('#' * 20)
@@ -347,7 +350,16 @@ def main():
 
         model_file = os.path.join(output_dir, 'model_{}.pt'.format(epoch))
         model.save(model_file)
-
+        
+def retry():
+    torch.cuda.empty_cache()
+    try :
+        main()
+    except RuntimeError:
+        retry()
 
 if __name__ == '__main__':
-    main()
+    try :
+        main()
+    except RuntimeError:
+        retry()
