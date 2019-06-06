@@ -359,7 +359,4 @@ def retry():
         retry()
 
 if __name__ == '__main__':
-    try :
-        main()
-    except RuntimeError:
-        retry()
+    main()
