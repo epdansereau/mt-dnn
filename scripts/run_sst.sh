@@ -13,7 +13,7 @@ tstr=$(date +"%FT%H%M")
 train_datasets="sst"
 test_datasets="sst"
 MODEL_ROOT="checkpoints"
-BERT_PATH="mt_dnn_models/mt_dnn_large.pt"
+BERT_PATH="model001.pt"
 DATA_DIR="data/mt_dnn"
 
 answer_opt=0

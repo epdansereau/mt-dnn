@@ -95,6 +95,9 @@ def train_config(parser):
     parser.add_argument('--seed', type=int, default=2018,
                         help='random seed for data shuffling, embedding init, etc.')
     parser.add_argument('--task_config_path', type=str, default='configs/tasks_config.json')
+    
+    # inference
+    parser.add_argument('--inference', type=int, default=0)
 
     return parser
 
@@ -314,12 +317,13 @@ def main():
 
         for i in range(len(all_indices)):
             task_id = all_indices[i]
-            batch_meta, batch_data= next(all_iters[task_id])
-            model.update(batch_meta, batch_data)
-            if (model.updates) % args.log_per_updates == 0 or model.updates == 1:
-                logger.info('Task [{0:2}] updates[{1:6}] train loss[{2:.5f}] remaining[{3}]'.format(task_id,
-                    model.updates, model.train_loss.avg,
-                    str((datetime.now() - start) / (i + 1) * (len(all_indices) - i - 1)).split('.')[0]))
+            if not args.inference:
+                batch_meta, batch_data= next(all_iters[task_id])
+                model.update(batch_meta, batch_data)
+                if (model.updates) % args.log_per_updates == 0 or model.updates == 1:
+                    logger.info('Task [{0:2}] updates[{1:6}] train loss[{2:.5f}] remaining[{3}]'.format(task_id,
+                        model.updates, model.train_loss.avg,
+                        str((datetime.now() - start) / (i + 1) * (len(all_indices) - i - 1)).split('.')[0]))
 
         for idx, dataset in enumerate(args.test_datasets):
             prefix = dataset.split('_')[0]
