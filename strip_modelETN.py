@@ -4,9 +4,6 @@ import torch
 
 def strip(checkpoint = 'd:/model_4.pt', fout = 'mt-dnn-cased-v2.pt'):
     opt = {"checkpoint":checkpoint,"fout":fout}
-    
-    
-    print('fuck')
     model_path = checkpoint
     state_dict = None
     if os.path.exists(model_path):

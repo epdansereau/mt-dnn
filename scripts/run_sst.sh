@@ -1,6 +1,6 @@
 #!/bin/bash
-if [[ $# -ne 2 ]]; then
-  echo "train.sh <batch_size> <gpu>"
+if [[ $# -ne 3 ]]; then
+  echo "train.sh <batch_size> <gpu> <bert_path>"
   exit 1
 fi
 prefix="mt-dnn-sst"
@@ -13,7 +13,7 @@ tstr=$(date +"%FT%H%M")
 train_datasets="sst"
 test_datasets="sst"
 MODEL_ROOT="checkpoints"
-BERT_PATH="model001.pt"
+BERT_PATH=$3
 DATA_DIR="data/mt_dnn"
 
 answer_opt=0
