@@ -3,6 +3,10 @@ import json
 import numpy as np
 from random import shuffle
 from .label_map import METRIC_FUNC, METRIC_META, METRIC_NAME
+from tqdm import tqdm, tqdm_notebook
+import os
+from IPython.core.interactiveshell import InteractiveShell
+InteractiveShell.ast_node_interactivity = "all"
 
 def load_scitail(file, label_dict):
     """Loading data of scitail
@@ -321,7 +325,7 @@ def eval_model(model, data, dataset, use_cuda=True, with_label=True):
     scores = []
     ids = []
     metrics = {}
-    for batch_meta, batch_data in data:
+    for batch_meta, batch_data in tqdm(data):
         score, pred, gold = model.predict(batch_meta, batch_data)
         predictions.extend(pred)
         golds.extend(gold)
